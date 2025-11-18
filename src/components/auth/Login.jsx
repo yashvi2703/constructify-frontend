@@ -38,6 +38,7 @@ export default function Login() {
       window.location.href = "/dashboard";
     } catch (err) {
       setError(err.message || "Login failed");
+      console.error(err);
     } finally {
       setLoading(false);
     }

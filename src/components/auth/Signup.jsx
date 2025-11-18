@@ -40,6 +40,7 @@ export default function Signup() {
       window.location.href = "/login";
     } catch (err) {
       setError(err.message || "Signup failed");
+      console.error(err);
     } finally {
       setLoading(false);
     }

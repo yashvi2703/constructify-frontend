@@ -787,7 +787,7 @@ export default function TraderOrdersDashboard() {
     setOrderForm(prev => ({ ...prev, type: activeTab }));
   }, [activeTab]);
 
-  const API_BASE_URL = "/api";
+  const API_URL = import.meta.env.VITE_API_URL || '';;
 
   // ✅ Dark mode effect
   useEffect(() => {
@@ -802,7 +802,7 @@ export default function TraderOrdersDashboard() {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_BASE_URL}/dashboard-orders`);
+      const response = await axios.get(`${API_URL}/api/dashboard-orders`);
       const formattedOrders = response.data.map(order => ({
         ...order,
         createdAt: new Date(order.createdAt).toISOString().split('T')[0]
@@ -915,7 +915,7 @@ export default function TraderOrdersDashboard() {
           return;
         }
 
-        await axios.put(`${API_BASE_URL}/dashboard-orders/${order._id}`, { status: "cancelled" });
+        await axios.put(`${API_URL}/api/dashboard-orders/${order._id}`, { status: "cancelled" });
         setOrders(orders.map(o => o.id === id ? { ...o, status: "cancelled" } : o));
         alert(`Order ${id} cancelled successfully`);
       } catch (err) {
@@ -945,7 +945,7 @@ export default function TraderOrdersDashboard() {
         createdAt: new Date().toISOString()
       };
 
-      const response = await axios.post(`${API_BASE_URL}/dashboard-orders`, newOrder);
+      const response = await axios.post(`${API_URL}/api/dashboard-orders`, newOrder);
       setOrders([...orders, response.data]);
       setShowAddForm(false);
       setOrderForm({

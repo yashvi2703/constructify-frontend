@@ -19,11 +19,12 @@ export default function Inventory() {
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
 
-  const API_URL = "/api/materials";
+  // const API_URL = "/api/materials";
+  const API_URL = import.meta.env.VITE_API_URL || '';
   // Fetch materials from backend
   const fetchMaterials = async () => {
     try {
-      const res = await axios.get(`${API_URL}`);
+      const res = await axios.get(`${API_URL}/api/materials`);
       setMaterials(res.data);
     } catch (err) {
       console.error("Error fetching materials:", err);
@@ -61,7 +62,7 @@ export default function Inventory() {
         minStock: Number(form.minStock) || 0,
         lastUpdated: currentDate,
       };
-      const res = await axios.put(`${API_URL}/${editItem._id}`, payload);
+      const res = await axios.put(`${API_URL}/api/materials/${editItem._id}`, payload);
       setMaterials((prev) =>
         prev.map((m) => (m._id === editItem._id ? res.data : m))
       );
@@ -79,7 +80,7 @@ export default function Inventory() {
           minStock: existingMaterial.minStock, // Keep existing minStock
           lastUpdated: currentDate,
         };
-        const res = await axios.put(`${API_URL}/${existingMaterial._id}`, payload);
+        const res = await axios.put(`${API_URL}/api/materials/${existingMaterial._id}`, payload);
         setMaterials((prev) =>
           prev.map((m) => (m._id === existingMaterial._id ? res.data : m))
         );
@@ -93,7 +94,7 @@ export default function Inventory() {
           minStock: Number(form.minStock) || 0,
           lastUpdated: currentDate,
         };
-        const res = await axios.post(`${API_URL}`, payload);
+        const res = await axios.post(`${API_URL}/api/materials`, payload);
         setMaterials((prev) => [...prev, res.data]);
       }
     }
@@ -111,7 +112,7 @@ export default function Inventory() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this material?")) return;
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await axios.delete(`${API_URL}/api/materials/${id}`);
       setMaterials((prev) => prev.filter((m) => m._id !== id));
     } catch (err) {
       console.error("Error deleting material:", err);

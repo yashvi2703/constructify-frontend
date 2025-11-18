@@ -637,7 +637,7 @@
 
 
 
-  import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Sun,
@@ -673,12 +673,13 @@ export default function WarehouseEmployees() {
     photo: "",
   });
   const [loading, setLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_API_URL || '';
 
   // Fetch employees from backend
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const res = await axios.get("/api/employees");
+        const res = await axios.get(`${API_URL}/api/employees`);
         setEmployees(res.data);
       } catch (err) {
         console.error("Error fetching employees:", err);
@@ -742,7 +743,7 @@ export default function WarehouseEmployees() {
       if (editingEmployee) {
         // Edit
         const res = await axios.put(
-          `/api/employees/${editingEmployee._id}`,
+          `${API_URL}/api/employees/${editingEmployee._id}`,
           {
             ...formData,
             experience: Number(formData.experience),
@@ -764,7 +765,7 @@ export default function WarehouseEmployees() {
               Math.random() > 0.5 ? "men" : "women"
             }/${Math.floor(Math.random() * 70)}.jpg`,
         };
-        const res = await axios.post("/api/employees", newEmp);
+        const res = await axios.post(`${API_URL}/api/employees`, newEmp);
         setEmployees([...employees, res.data]);
       }
     } catch (err) {
@@ -789,7 +790,7 @@ export default function WarehouseEmployees() {
   const handleDelete = async (_id) => {
     if (window.confirm("Are you sure you want to delete this employee?")) {
       try {
-        await axios.delete(`/api/employees/${_id}`);
+        await axios.delete(`${API_URL}/api/employees/${_id}`);
         setEmployees(employees.filter((emp) => emp._id !== _id));
       } catch (err) {
         console.error("Error deleting employee:", err);

@@ -23,6 +23,8 @@ const ConstructifyAnalytics = () => {
   const [lowStock, setLowStock] = useState(0);
   const [statsLoading, setStatsLoading] = useState(true);
 
+  const API_URL = import.meta.env.VITE_API_URL || '';
+
   // ✅ Dark mode effect
   useEffect(() => {
     if (darkMode) {
@@ -35,7 +37,7 @@ const ConstructifyAnalytics = () => {
   // ✅ Function to fetch chart by type
   const fetchChartData = async (type) => {
     try {
-      const res = await axios.get(`/api/charts/${type}`);
+      const res = await axios.get(`${API_URL}/api/charts/${type}`);
       return res.data.data; // assuming your backend sends { data: [...] }
     } catch (err) {
       console.error(`Failed to fetch ${type}:`, err);
@@ -69,7 +71,7 @@ const ConstructifyAnalytics = () => {
         setStatsLoading(true);
 
         // Fetch orders for revenue and total orders count
-        const ordersRes = await axios.get("/api/dashboard-orders");
+        const ordersRes = await axios.get(`${API_URL}/api/dashboard-orders`);
         const allOrders = Array.isArray(ordersRes.data) ? ordersRes.data : [];
         const customersCount = allOrders.filter((o) => o.type === "customers").length;
         setTotalOrders(customersCount);
@@ -79,7 +81,7 @@ const ConstructifyAnalytics = () => {
         setTotalRevenue(revenue);
 
         // Fetch materials for low stock count
-        const materialsRes = await axios.get("/api/materials");
+        const materialsRes = await axios.get(`${API_URL}/api/materials`);
         const materials = Array.isArray(materialsRes.data) ? materialsRes.data : [];
         const getStockStatus = (material) => {
           if (material.quantity < material.minStock * 0.5) {

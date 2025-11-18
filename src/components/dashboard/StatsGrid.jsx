@@ -3,6 +3,8 @@ import { ArrowDownRight, ArrowRight, ArrowUpRight, Eye, ReceiptIndianRupee, Shop
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const StatsGrid = () => {
   // replaced totalOrders with customerOrders
   const [customerOrders, setCustomerOrders] = useState(0);
@@ -16,7 +18,7 @@ const StatsGrid = () => {
     const fetchData = async () => {
       try {
         // Fetch orders for revenue and customer orders count
-        const ordersRes = await axios.get("/api/dashboard-orders");
+        const ordersRes = await axios.get(`${API_URL}/api/dashboard-orders`);
         const allOrders = Array.isArray(ordersRes.data) ? ordersRes.data : [];
         const customersCount = allOrders.filter((o) => o.type === "customers").length;
         setCustomerOrders(customersCount);
@@ -26,7 +28,7 @@ const StatsGrid = () => {
         setTotalRevenue(revenue);
 
         // Fetch employees for cost
-        const employeesRes = await axios.get("/api/employees");
+        const employeesRes = await axios.get(`${API_URL}/api/employees`);
         const employees = Array.isArray(employeesRes.data) ? employeesRes.data : [];
         const cost = employees.reduce((sum, emp) => sum + (emp.salary || 0), 0);
         setTotalCost(cost);

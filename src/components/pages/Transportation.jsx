@@ -25,14 +25,15 @@ export default function TransportationDashboard() {
   const [formError, setFormError] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const API_URL = "/api/transportation";
+  // const API_URL = "/api/transportation";
+  const API_URL = import.meta.env.VITE_API_URL || '';
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const [driversRes, vehiclesRes] = await Promise.all([
-        axios.get(`${API_URL}/drivers`),
-        axios.get(`${API_URL}/vehicles`),
+        axios.get(`${API_URL}/api/transportation/drivers`),
+        axios.get(`${API_URL}/api/transportation/vehicles`),
       ]);
       setDrivers(driversRes.data.map(d => ({ ...d, id: d._id })));
       setVehicles(vehiclesRes.data.map(v => ({ ...v, id: v._id })));
@@ -102,10 +103,10 @@ export default function TransportationDashboard() {
       }
       try {
         if (editMode) {
-          const res = await axios.put(`${API_URL}/drivers/${editMode}`, formData);
+          const res = await axios.put(`${API_URL}/api/transportation/drivers/${editMode}`, formData);
           setDrivers(drivers.map((d) => (d.id === editMode ? { ...res.data, id: res.data._id } : d)));
         } else {
-          const res = await axios.post(`${API_URL}/drivers`, { ...formData, status: "Active" });
+          const res = await axios.post(`${API_URL}/api/transportation/drivers`, { ...formData, status: "Active" });
           setDrivers([...drivers, { ...res.data, id: res.data._id }]);
         }
       } catch (error) {
@@ -120,10 +121,10 @@ export default function TransportationDashboard() {
       }
       try {
         if (editMode) {
-          const res = await axios.put(`${API_URL}/vehicles/${editMode}`, formData);
+          const res = await axios.put(`${API_URL}/api/transportation/vehicles/${editMode}`, formData);
           setVehicles(vehicles.map((v) => (v.id === editMode ? { ...res.data, id: res.data._id } : v)));
         } else {
-          const res = await axios.post(`${API_URL}/vehicles`, { ...formData, status: "Available", fuelLevel: "100%" });
+          const res = await axios.post(`${API_URL}/api/transportation/vehicles`, { ...formData, status: "Available", fuelLevel: "100%" });
           setVehicles([...vehicles, { ...res.data, id: res.data._id }]);
         }
       } catch (error) {
@@ -141,7 +142,7 @@ export default function TransportationDashboard() {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${API_URL}/${deleteModal.type}s/${deleteModal.id}`);
+      await axios.delete(`${API_URL}/api/transportation/${deleteModal.type}s/${deleteModal.id}`);
       fetchData(); // Refetch data to ensure consistency
     } catch (error) {
       console.error(`Error deleting ${deleteModal.type}:`, error);

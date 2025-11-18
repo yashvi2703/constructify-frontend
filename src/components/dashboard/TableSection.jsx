@@ -7,12 +7,12 @@ function TableSection() {
   const [orders, setOrders] = useState([]);
   const [showAll, setShowAll] = useState(false);
 
-  const API_BASE_URL = "/api";
+  const API_URL = import.meta.env.VITE_API_URL || '';
 
   useEffect(() => {
     const fetchCustomerOrders = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/dashboard-orders`);
+        const res = await axios.get(`${API_URL}/dashboard-orders`);
         const data = Array.isArray(res.data) ? res.data : [];
 
         // keep only customer orders and normalize fields for the recent table

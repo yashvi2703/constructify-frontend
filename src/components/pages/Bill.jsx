@@ -96,12 +96,12 @@ export default function InvoiceGenerator() {
   const [showForm, setShowForm] = useState(false);
   const [generatingPDF, setGeneratingPDF] = useState(null);
 
-  const API_URL = "/api/invoices";
+  const API_URL = import.meta.env.VITE_API_URL || '';
 
   // Fetch materials from backend
   const fetchMaterials = async () => {
     try {
-      const res = await axios.get('/api/materials');
+      const res = await axios.get(`${API_URL}/api/materials`);
       setMaterials(res.data);
     } catch (err) {
       console.error("Error fetching materials:", err);
@@ -115,7 +115,7 @@ export default function InvoiceGenerator() {
   // Fetch invoices from backend
   const fetchInvoices = async () => {
     try {
-      const res = await axios.get(`${API_URL}`);
+      const res = await axios.get(`${API_URL}/api/invoices`);
       setInvoices(res.data);
     } catch (err) {
       console.error("Error fetching invoices:", err);
@@ -174,12 +174,12 @@ export default function InvoiceGenerator() {
       for (const material of form.materials) {
         if (material.name && material.quantity > 0) {
           // Find the material in inventory
-          const inventoryResponse = await axios.get('/api/materials');
+          const inventoryResponse = await axios.get(`${API_URL}/api/materials`);
           const inventoryMaterial = inventoryResponse.data.find(m => m.name.toLowerCase() === material.name.toLowerCase());
 
           if (inventoryMaterial) {
             const newQuantity = Math.max(0, inventoryMaterial.quantity - material.quantity);
-            await axios.put(`/api/materials/${inventoryMaterial._id}`, {
+            await axios.put(`${API_URL}/api/materials/${inventoryMaterial._id}`, {
               ...inventoryMaterial,
               quantity: newQuantity,
               lastUpdated: new Date().toISOString().split('T')[0]
@@ -201,10 +201,10 @@ export default function InvoiceGenerator() {
 
     try {
       if (form.id) {
-        const res = await axios.put(`${API_URL}/${form.id}`, invoiceData);
+        const res = await axios.put(`${API_URL}/api/invoices/${form.id}`, invoiceData);
         setInvoices(invoices.map(inv => (inv._id === form.id ? res.data : inv)));
       } else {
-        const res = await axios.post(`${API_URL}`, invoiceData);
+        const res = await axios.post(`${API_URL}/api/invoices`, invoiceData);
         setInvoices(prev => [...prev, res.data]);
       }
     } catch (err) {
@@ -234,7 +234,7 @@ export default function InvoiceGenerator() {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this invoice?')) return;
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await axios.delete(`${API_URL}/api/invoices/${id}`);
       setInvoices(prev => prev.filter(inv => inv._id !== id));
     } catch (err) {
       console.error("Error deleting invoice:", err);

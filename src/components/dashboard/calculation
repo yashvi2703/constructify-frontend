@@ -1,0 +1,35 @@
+Explanation of Calculations in StatsGrid.jsx
+Here's how the data is calculated for each stat in the dashboard:
+
+1. Total Revenue
+Source: Fetched from /api/dashboard-orders (all orders data).
+Calculation: Sum of (quantity * price) for every order in the array.
+Example: If there are 3 orders: (10 * 100) + (5 * 200) + (2 * 150) = ₹1,000 + ₹1,000 + ₹300 = ₹2,300.
+
+
+2. Profit
+Source: Calculated from Revenue and Cost.
+Calculation: Total Revenue - Total Cost.
+Example: If Revenue is ₹2,300 and Cost is ₹1,500, Profit = ₹2,300 - ₹1,500 = ₹800.
+
+3. Cost
+Source: Fetched from /api/employees (all employees data).
+Calculation: Sum of salary for every employee in the array.
+Example: If there are 3 employees with salaries: ₹50,000 + ₹40,000 + ₹30,000 = ₹120,000.
+
+4. Customer Orders
+Source: Fetched from /api/dashboard-orders (all orders data).
+Calculation: Count of orders where type === "customers".
+Example: If there are 10 total orders and 7 are customer orders, it shows 7.
+
+Data Flow:
+Fetch Orders: Get all orders from backend.
+Calculate Revenue: Sum up quantity * price for all orders.
+Fetch Employees: Get all employees from backend.
+Calculate Cost: Sum up salary for all employees.
+Calculate Profit: Revenue - Cost.
+Count Customer Orders: Filter orders by type and count.
+Display: Format all values in Indian Rupees and render in the grid.
+The calculations update automatically whenever the component mounts, reflecting real-time data from the backend.
+
+

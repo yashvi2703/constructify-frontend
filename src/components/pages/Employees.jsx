@@ -639,6 +639,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api.js";
 import {
   Sun,
   Moon,
@@ -673,7 +674,7 @@ export default function WarehouseEmployees() {
     photo: "",
   });
   const [loading, setLoading] = useState(true);
-  const API_URL = import.meta.env.VITE_API_URL || '';
+  const API_URL = API_BASE_URL;
 
   // Fetch employees from backend
   useEffect(() => {

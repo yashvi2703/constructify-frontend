@@ -2,8 +2,9 @@
 import { ArrowDownRight, ArrowRight, ArrowUpRight, Eye, ReceiptIndianRupee, ShoppingCart, Users } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api.js";
 
-const API_URL = import.meta.env.VITE_API_URL || '';
+const API_URL = API_BASE_URL;
 
 const StatsGrid = () => {
   // replaced totalOrders with customerOrders

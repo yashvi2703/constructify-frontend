@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api.js";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, RadialBarChart, RadialBar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import { TrendingUp, TrendingDown, ReceiptIndianRupee, ShoppingCart, Package, AlertTriangle } from 'lucide-react';
 
@@ -23,7 +24,7 @@ const ConstructifyAnalytics = () => {
   const [lowStock, setLowStock] = useState(0);
   const [statsLoading, setStatsLoading] = useState(true);
 
-  const API_URL = import.meta.env.VITE_API_URL || '';
+  const API_URL = API_BASE_URL;
 
   // ✅ Dark mode effect
   useEffect(() => {

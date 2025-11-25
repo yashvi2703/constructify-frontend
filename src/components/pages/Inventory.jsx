@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api.js";
 import { Plus, Edit, Trash2, PackageSearch, Sun, Moon, Download, AlertTriangle, TrendingUp, Package } from "lucide-react";
 
 export default function Inventory() {
@@ -20,7 +21,7 @@ export default function Inventory() {
   const [statusFilter, setStatusFilter] = useState("all");
 
   // const API_URL = "/api/materials";
-  const API_URL = import.meta.env.VITE_API_URL || '';
+  const API_URL = API_BASE_URL;
   // Fetch materials from backend
   const fetchMaterials = async () => {
     try {

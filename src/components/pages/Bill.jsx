@@ -8,6 +8,7 @@ import logoImage from "../../assets/logo.png"; // Ensure this path is correct
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Download, Trash2, Edit, X, Search } from "lucide-react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api.js";
 
 // UI Components
 function Card({ children, className = "" }) {
@@ -96,7 +97,7 @@ export default function InvoiceGenerator() {
   const [showForm, setShowForm] = useState(false);
   const [generatingPDF, setGeneratingPDF] = useState(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || '';
+  const API_URL = API_BASE_URL;
 
   // Fetch materials from backend
   const fetchMaterials = async () => {
@@ -424,7 +425,7 @@ export default function InvoiceGenerator() {
         const clientEmail = prompt(`Enter email address for ${invoice.client}:`, '');
         if (clientEmail && clientEmail.trim()) {
           try {
-            const response = await fetch('/api/email/send-bill', {
+            const response = await fetch(`${API_BASE_URL}/api/email/send-bill`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

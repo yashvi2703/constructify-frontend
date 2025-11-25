@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import API_BASE_URL from "../../config/api.js";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -7,7 +8,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL || '';
+  const API_URL = API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

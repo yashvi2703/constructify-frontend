@@ -2,17 +2,18 @@
 import { MoreHorizontal, TrendingDown, TrendingUp } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
+import API_BASE_URL from "../../config/api.js";
 
 function TableSection() {
   const [orders, setOrders] = useState([]);
   const [showAll, setShowAll] = useState(false);
 
-  const API_URL = import.meta.env.VITE_API_URL || '';
+  const API_URL = API_BASE_URL;
 
   useEffect(() => {
     const fetchCustomerOrders = async () => {
       try {
-        const res = await axios.get(`${API_URL}/dashboard-orders`);
+        const res = await axios.get(`${API_URL}/api/dashboard-orders`);
         const data = Array.isArray(res.data) ? res.data : [];
 
         // keep only customer orders and normalize fields for the recent table

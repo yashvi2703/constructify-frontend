@@ -758,6 +758,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api.js";
 
 export default function TraderOrdersDashboard() {
   const [activeTab, setActiveTab] = useState("mine");
@@ -787,7 +788,7 @@ export default function TraderOrdersDashboard() {
     setOrderForm(prev => ({ ...prev, type: activeTab }));
   }, [activeTab]);
 
-  const API_URL = import.meta.env.VITE_API_URL || '';;
+  const API_URL = API_BASE_URL;
 
   // ✅ Dark mode effect
   useEffect(() => {
